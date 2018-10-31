@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { AuthService, SocialUser } from '../../node_modules/angular-6-social-login';
+import { AuthService, SocialUser } from 'angularx-social-login';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

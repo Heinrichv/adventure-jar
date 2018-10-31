@@ -4,7 +4,9 @@ import {
   AuthService,
   FacebookLoginProvider,
   SocialUser
-} from 'angular-6-social-login';
+} from 'angularx-social-login';
+import { AuthHelperService } from '../../services/auth-helper.service';
+import { Router } from '../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,11 @@ import {
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private socialAuthService: AuthService) { }
+  constructor(
+    private socialAuthService: AuthService,
+    readonly auth: AuthHelperService,
+    readonly router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -21,9 +27,9 @@ export class LoginComponent implements OnInit {
   public socialSignIn() {
     const socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
     this.socialAuthService.authState.subscribe(res => {
-      from(this.socialAuthService.signIn(socialPlatformProvider)).subscribe((data) => {
-        if (data) {
-        }
+      from(this.socialAuthService.signIn(socialPlatformProvider)).subscribe((data: SocialUser) => {
+        this.auth.setSocialUser(data);
+        this.router.navigate(['home']);
       });
     });
   }

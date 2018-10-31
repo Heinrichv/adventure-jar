@@ -16,8 +16,11 @@ import {
   MatListModule,
   MatStepperModule,
   MatRadioModule,
-  MatDialogModule
+  MatDialogModule,
+  MatMenuModule
 } from '@angular/material';
+
+import { PlatformModule } from '@angular/cdk/platform';
 
 @NgModule({
   imports: [
@@ -37,7 +40,9 @@ import {
     MatListModule,
     MatStepperModule,
     MatRadioModule,
-    MatDialogModule
+    MatDialogModule,
+    PlatformModule,
+    MatMenuModule
   ],
   exports: [
     MatButtonModule,
@@ -56,7 +61,9 @@ import {
     MatListModule,
     MatStepperModule,
     MatRadioModule,
-    MatDialogModule
+    MatDialogModule,
+    PlatformModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }
