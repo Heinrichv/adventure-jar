@@ -6,21 +6,27 @@ import { PlacesService } from '../../services/places.service';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
+export class LandingComponent implements OnInit {
+  constructor(readonly place: PlacesService) { }
 
-export class LandingComponent {
-  public places: any[] = [];
+  places: any;
+  position: any = {};
 
-  constructor(readonly place: PlacesService) {
-
-  }
+  ngOnInit() { }
 
   getPlaces() {
-    window.navigator.geolocation.getCurrentPosition(function(position) {
-      this.place.getNearbyPlaces('golf', position.coords.latitude.toString(), position.coords.longitude.toString())
-        .subscribe((res) => {
-          console.log(res);
-          this.places = res;
-        });
+    navigator.geolocation.getCurrentPosition(function(position) {
+      if (position) {
+        this.position = position;
+
+        if (this.position) {
+          this.place.getNearbyPlaces('golf', this.position.coords.latitude.toString(), this.position.coords.longitude.toString())
+          .subscribe((res) => {
+            console.log(res);
+            this.places = res;
+          });
+        }
+      }
     });
   }
 }

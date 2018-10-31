@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
   SocialLoginModule,
   AuthServiceConfig,
@@ -13,15 +11,15 @@ import {
 } from 'angularx-social-login';
 import 'hammerjs';
 
-import { AppComponent } from 'src/app/app.component';
-import { LoginComponent } from 'src/app/components/login/login.component';
-import { ManageComponent } from 'src/app/components/manage/manage.component';
-import { LandingComponent } from 'src/app/components/landing/landing.component';
-import { NavbarComponent } from 'src/app/components/individual/navbar/navbar.component';
-
-import { AuthGuardService as AuthGuard } from 'src/app/services/auth-guard.service';
-import { AuthHelperService } from 'src/app/services/auth-helper.service';
 import { PlacesService } from 'src/app/services/places.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/individual/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
+import { ManageComponent } from './components/manage/manage.component';
+import { LandingComponent } from './components/landing/landing.component';
+import { AuthHelperService } from './services/auth-helper.service';
+import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 
 export function getAuthServiceConfigs() {
   return new AuthServiceConfig([
@@ -35,18 +33,16 @@ export function getAuthServiceConfigs() {
 @NgModule({
   declarations: [
     AppComponent,
+    NavbarComponent,
     LoginComponent,
     ManageComponent,
-    LandingComponent,
-    NavbarComponent
+    LandingComponent
   ],
   imports: [
     BrowserModule,
-    CommonModule,
-    HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     RouterModule,
     RouterModule.forRoot([
       {
@@ -70,7 +66,7 @@ export function getAuthServiceConfigs() {
       },
       {
         path: '**',
-        redirectTo: '/home',
+        redirectTo: '/',
         canActivate: [AuthGuard]
       }
     ]),
