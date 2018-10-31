@@ -391,9 +391,6 @@ THE SOFTWARE.
 
 @angular/material/toolbar
 
-@angular/http
-MIT
-
 @angular/forms
 MIT
 
