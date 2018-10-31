@@ -3,6 +3,7 @@ import { SocialUser, AuthService } from 'angularx-social-login';
 import { AuthHelperService } from '../../../services/auth-helper.service';
 import { from } from 'rxjs';
 import { Router } from '@angular/router';
+import { Platform } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-navbar',
@@ -12,9 +13,16 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   user: SocialUser;
-  constructor(readonly auth: AuthHelperService, readonly social: AuthService, readonly router: Router) { }
+  isMobile: boolean;
+  constructor(
+    readonly auth: AuthHelperService,
+    readonly social: AuthService,
+    readonly router: Router,
+    readonly platform: Platform
+  ) { }
 
   ngOnInit() {
+    this.isMobile = this.platform.ANDROID || this.platform.IOS;
     this.user = this.auth.getSocialUser();
     console.log(this.user);
   }
@@ -22,7 +30,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     from(this.social.signOut()).subscribe(() => {
       this.auth.removeSocialUser();
-      this.router.navigateByUrl('/');
+      this.router.navigate(['login']);
     });
   }
 }
