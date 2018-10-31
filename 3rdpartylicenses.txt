@@ -383,13 +383,13 @@ THE SOFTWARE.
 
 @angular/material/dialog
 
-@angular/material/toolbar
-
 @angular/material/button
+
+@angular/material/icon
 
 @angular/material/menu
 
-@angular/material/icon
+@angular/material/toolbar
 
 @angular/http
 MIT
