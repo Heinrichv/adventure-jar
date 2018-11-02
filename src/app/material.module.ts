@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -17,7 +17,8 @@ import {
   MatStepperModule,
   MatRadioModule,
   MatDialogModule,
-  MatMenuModule
+  MatMenuModule,
+  MatChipsModule
 } from '@angular/material';
 
 import { PlatformModule } from '@angular/cdk/platform';
@@ -42,7 +43,8 @@ import { PlatformModule } from '@angular/cdk/platform';
     MatRadioModule,
     MatDialogModule,
     PlatformModule,
-    MatMenuModule
+    MatMenuModule,
+    MatChipsModule
   ],
   exports: [
     MatButtonModule,
@@ -63,7 +65,8 @@ import { PlatformModule } from '@angular/cdk/platform';
     MatRadioModule,
     MatDialogModule,
     PlatformModule,
-    MatMenuModule
+    MatMenuModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule { }
