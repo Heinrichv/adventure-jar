@@ -1,5 +1,25 @@
-<div class="row">
-  <ng-container *ngFor="let place of places">
-    <app-place [place]="place"></app-place>
-  </ng-container>
+<div id="carousel" class="w-100 carousel slide" data-ride="carousel" [class.mobile]="mobile">
+  <div class="carousel-inner">
+    <div *ngFor="let batch of places; let i = index" class="carousel-item active" [class.active]="i === 0">
+      <div class="row p-1">
+        <div class="col-1 pt-3">
+          <button mat-mini-fab class="mt-5 ml-2" href="#carousel" role="button" data-slide="prev">
+            <mat-icon>skip_previous</mat-icon>
+          </button>
+        </div>
+        <ng-container *ngIf="mobile">
+          <app-place class="d-block col-8 w-100 text-center" *ngFor="let place of batch" [place]="place"></app-place>
+        </ng-container>
+        <ng-container *ngIf="!mobile">
+          <app-place class="d-block col-2" *ngFor="let place of batch" [place]="place"></app-place>
+        </ng-container>
+
+        <div class="col-1 pt-3">
+          <button mat-mini-fab class="mt-5 mr-2" href="#carousel" role="button" data-slide="next">
+            <mat-icon>skip_next</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
