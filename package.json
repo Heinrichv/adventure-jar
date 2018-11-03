@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve -o --watch --ssl true --base-href /adventure-jar/",
     "build": "ng build",
-    "publish": "ng build --prod --output-hashing none --base-href /adventure-jar/ && ngh",
+    "publish": "ng build --prod --base-href /adventure-jar/ && ngh",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

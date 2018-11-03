@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  public socialSignIn() {
+  socialSignIn() {
     const socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
     this.socialAuthService.authState.subscribe(res => {
       from(this.socialAuthService.signIn(socialPlatformProvider)).subscribe((data: SocialUser) => {
@@ -32,5 +32,12 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['home']);
       });
     });
+  }
+
+  guestSignIn() {
+    const guest: SocialUser = new SocialUser();
+    guest.name = 'Guest';
+    this.auth.setSocialUser(guest);
+    this.router.navigate(['home']);
   }
 }

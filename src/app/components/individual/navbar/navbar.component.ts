@@ -28,9 +28,8 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    from(this.social.signOut()).subscribe(() => {
-      this.auth.removeSocialUser();
-      this.router.navigate(['login']);
-    });
+    this.auth.removeSocialUser();
+    this.router.navigate(['login']);
+    from(this.social.signOut()).subscribe();
   }
 }
