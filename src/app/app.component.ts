@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { AuthService, SocialUser } from 'angularx-social-login';
+import { AuthHelperService } from './services/auth-helper.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,23 +7,17 @@ import { AuthService, SocialUser } from 'angularx-social-login';
 })
 
 export class AppComponent implements OnInit, OnChanges {
-  user: SocialUser;
-  loggedIn = false;
+  loggedIn = this.service.isAuthenticated();
 
-  constructor(readonly authService: AuthService) {
+  constructor(readonly service: AuthHelperService) {
 
   }
 
   ngOnChanges(changes) {
-    console.log(changes);
+    this.loggedIn = this.service.isAuthenticated();
   }
 
   ngOnInit(): void {
-    window.setInterval(() => {
-      this.authService.authState.subscribe((user) => {
-        this.user = user;
-        this.loggedIn = (user != null);
-      });
-    }, 1000);
+    this.loggedIn = this.service.isAuthenticated();
   }
 }

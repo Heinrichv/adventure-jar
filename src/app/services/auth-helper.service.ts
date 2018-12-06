@@ -1,36 +1,71 @@
 import { Injectable } from '@angular/core';
-import { SocialUser } from 'angularx-social-login';
+import { WebAuth } from 'auth0-js';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthHelperService {
 
-  constructor() { }
+  constructor(readonly router: Router) { }
 
-  isLoggedIn(): boolean {
-    if (this.getSocialUser()) {
-      return true;
-    }
+  auth0 = new WebAuth({
+    clientID: environment.auth.clientID,
+    domain: environment.auth.domain,
+    responseType: environment.auth.responseType,
+    redirectUri: environment.auth.redirectUrl,
+    scope: environment.auth.scope
+  });
 
-    return false;
+  handleAuthentication(): void {
+    this.auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        window.location.hash = '';
+        this.setSession(authResult);
+        this.router.navigate(['']);
+      } else if (err) {
+        this.router.navigate(['']);
+        console.log(err);
+      } else {
+        this.auth0.authorize();
+      }
+    });
   }
 
-  getSocialUser(): SocialUser {
-    const user = window.localStorage.getItem('user');
-
-    if (user === undefined || user === '') {
-      return null;
-    }
-
-    return JSON.parse(user) as SocialUser;
+  private setSession(authResult): void {
+    // Set the time that the Access Token will expire at
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    localStorage.setItem('access_token', authResult.accessToken);
+    localStorage.setItem('id_token', authResult.idToken);
+    localStorage.setItem('expires_at', expiresAt);
   }
 
-  setSocialUser(data: SocialUser) {
-    window.localStorage.setItem('user', JSON.stringify(data));
+  logout(): void {
+    // Remove tokens and expiry time from localStorage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+
+    this.auth0.logout({
+      returnTo: environment.auth.redirectUrl
+    });
   }
 
-  removeSocialUser() {
-    window.localStorage.removeItem('user');
+  isAuthenticated(): boolean {
+    // Check whether the current time is past the
+    // Access Token's expiry time
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
+    return new Date().getTime() < expiresAt;
+  }
+
+  getUserInfo(cb) {
+    this.auth0.client.userInfo(localStorage.getItem('access_token'), (err, user) => {
+      if (err) {
+        return cb(err);
+      }
+
+      return cb(null, user);
+    });
   }
 }

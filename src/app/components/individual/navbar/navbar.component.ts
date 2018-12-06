@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SocialUser, AuthService } from 'angularx-social-login';
 import { AuthHelperService } from '../../../services/auth-helper.service';
-import { from } from 'rxjs';
 import { Router } from '@angular/router';
 import { Platform } from '@angular/cdk/platform';
+import { Auth0UserProfile } from 'auth0-js';
 
 @Component({
   selector: 'app-navbar',
@@ -11,25 +10,27 @@ import { Platform } from '@angular/cdk/platform';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
-  user: SocialUser;
+  user = {
+    picture: '',
+    name: ''
+  };
   isMobile: boolean;
   constructor(
-    readonly auth: AuthHelperService,
-    readonly social: AuthService,
+    readonly helperService: AuthHelperService,
     readonly router: Router,
     readonly platform: Platform
   ) { }
 
   ngOnInit() {
     this.isMobile = this.platform.ANDROID || this.platform.IOS;
-    this.user = this.auth.getSocialUser();
-    console.log(this.user);
+    this.helperService.getUserInfo((err, res: Auth0UserProfile) => {
+      console.log(res);
+      this.user = res;
+    });
   }
 
   logout() {
-    this.auth.removeSocialUser();
+    this.helperService.logout();
     this.router.navigate(['login']);
-    from(this.social.signOut()).subscribe();
   }
 }

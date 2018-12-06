@@ -4,11 +4,6 @@ import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  FacebookLoginProvider,
-} from 'angularx-social-login';
 import 'hammerjs';
 
 import { AuthHelperService } from './services/auth-helper.service';
@@ -22,15 +17,6 @@ import { ManageComponent } from './components/manage/manage.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { PlacesComponent } from './components/individual/places/places.component';
 import { PlaceComponent } from './components/individual/places/place/place.component';
-
-export function getAuthServiceConfigs() {
-  return new AuthServiceConfig([
-    {
-      id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider('728728677505915')
-    }
-  ]);
-}
 
 @NgModule({
   declarations: [
@@ -47,7 +33,6 @@ export function getAuthServiceConfigs() {
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SocialLoginModule,
     MaterialModule,
     RouterModule,
     RouterModule.forRoot([
@@ -58,7 +43,8 @@ export function getAuthServiceConfigs() {
       },
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'home',
@@ -80,11 +66,7 @@ export function getAuthServiceConfigs() {
   providers: [
     PlacesService,
     AuthHelperService,
-    AuthGuard,
-    {
-      provide: AuthServiceConfig,
-      useFactory: getAuthServiceConfigs
-    }
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

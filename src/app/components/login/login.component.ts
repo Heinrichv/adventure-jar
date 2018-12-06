@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { from } from 'rxjs';
-import {
-  AuthService,
-  FacebookLoginProvider,
-  SocialUser
-} from 'angularx-social-login';
 import { AuthHelperService } from '../../services/auth-helper.service';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +10,7 @@ import { Router } from '../../../../node_modules/@angular/router';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private socialAuthService: AuthService,
-    readonly auth: AuthHelperService,
+    readonly service: AuthHelperService,
     readonly router: Router
   ) { }
 
@@ -25,19 +18,6 @@ export class LoginComponent implements OnInit {
   }
 
   socialSignIn() {
-    const socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-    this.socialAuthService.authState.subscribe(res => {
-      from(this.socialAuthService.signIn(socialPlatformProvider)).subscribe((data: SocialUser) => {
-        this.auth.setSocialUser(data);
-        this.router.navigate(['home']);
-      });
-    });
-  }
-
-  guestSignIn() {
-    const guest: SocialUser = new SocialUser();
-    guest.name = 'Guest';
-    this.auth.setSocialUser(guest);
-    this.router.navigate(['home']);
+    this.service.auth0.authorize();
   }
 }

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o --watch --ssl true --base-href /adventure-jar/",
+    "start": "ng serve -o --watch --base-href /adventure-jar/",
     "build": "ng build",
     "publish": "ng build --prod --base-href /adventure-jar/ && ngh",
     "test": "ng test",
@@ -23,10 +23,10 @@
     "@angular/platform-browser": "^7.0.2",
     "@angular/platform-browser-dynamic": "^7.0.2",
     "@angular/router": "^7.0.2",
-    "angularx-social-login": "^1.2.3",
+    "@types/auth0-js": "^8.11.7",
+    "auth0-js": "^9.8.2",
     "bootstrap": "^4.1.3",
     "core-js": "^2.5.7",
-    "fiftyonedegreescore": "^3.2.20",
     "hammerjs": "^2.0.8",
     "rxjs": "^6.3.3",
     "zone.js": "^0.8.26"
